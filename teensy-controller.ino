@@ -11,10 +11,11 @@
 //
 // Globals
 //
-int PSP_SERIAL_BAUD         = 4800;         // The baud (bytes per second) rate
-int PSP_SERIAL_PIN_X        = 0;            // The pin responsible for the second analog X axis
-int PSP_SERIAL_PIN_Y        = 1;            // The pin responsible for the second analog Y axis
-int PSP_SERIAL_REQ_BOTH     = 2;            // The request byte for when a user wants to receive both axes
+int PSP_SERIAL_BAUD             = 4800;         // The baud (bytes per second) rate
+int PSP_SERIAL_PIN_X            = 0;            // The pin responsible for the second analog X axis
+int PSP_SERIAL_PIN_Y            = 1;            // The pin responsible for the second analog Y axis
+int PSP_SERIAL_REQ_BOTH         = 2;            // The request byte for when a user wants to receive both axes
+int PSP_SERIAL_REQ_IS_ACTIVE    = 3;            // Request byte for checking if serial is active
 
 //
 // Setup
@@ -58,6 +59,11 @@ void loop()
         Serial1.write(analogRead(PSP_SERIAL_PIN_Y));
     }
 
-    // 2ms delay
-    delay(2);
+    // Check if we're Active
+    if (request == PSP_SERIAL_REQ_IS_ACTIVE) {
+        Serial1.write(byte(1));
+    }
+
+    // Delay for 5 microseconds
+    delayMicroseconds(5);
 }
